@@ -1,15 +1,28 @@
 import time
-import sys
-from settings import *
 from collections import OrderedDict
 
-class Helpers(object):
-	def times():
-		return time.strftime('%H:%M:%S')
-	def times_str(s):
-		print('[{}] {}'.format(Helpers.times(),str(s)))
+HEARTBEAT_LIVENESS = 3
+HEARTBEAT_INTERVAL = 1
+INTERVAL_INIT = 1
+INTERVAL_MAX = 32
+PPP_READY = b'\x01'      
+PPP_HEARTBEAT = b'\x02'
 
-class Worker(object):
+WORKER_URL = ('tcp','localhost','7000')
+CLIENT_URL = ('tcp','localhost','5555')
+
+def times():
+    return time.strftime('%H:%M:%S')
+
+def times_str(s):
+    print('[{}] {}'.format(times(),str(s)))
+
+def url_str(t,bind=False):
+    if bind:
+        return '{}://*:{}'.format(t[0],t[2])
+    return '{}://{}:{}'.format(*t)
+
+class WorkerModel(object):
     def __init__(self, address):
         self.address = address
         self.working = False
@@ -25,13 +38,11 @@ class WorkerQueue(object):
             if ( (time.time() > worker.expiry) and not (worker.working) ): 
                 expired.append(address)
         for address in expired:
-            Helpers.times_str('W: Idle worker expired: {}'.format(address))
+            times_str('W: Idle worker expired: {}'.format(address))
             self._queue.pop(address, None)
 
     def empty(self):
-        if len(self._queue) == 0:
-            return True
-        return False
+        return True if len(self._queue) == 0 else False
 
     def ready(self, worker):
         self._queue.pop(worker.address, None)
