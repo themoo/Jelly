@@ -46,9 +46,9 @@ class TheQueue(object):
 
         try:
             self.frontend.send(PPP_READY)
-            self.loop.start()
+            #self.loop.start()
         except KeyboardInterrupt:
-            times_str('ctrlc')
+            times_str('ctrlc1')
 
     def handle_frontend(self,msg):
         m = msg[:]
@@ -97,7 +97,7 @@ class TheQueue(object):
 
 def main():
     context = zmq.Context(1)
-    q = TheQueue(context, CLIENT_URL, WORKER_URL)
+    #q = TheQueue(context, CLIENT_URL, WORKER_URL)
 
 if __name__ == "__main__":
     main()

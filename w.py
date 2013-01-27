@@ -35,10 +35,10 @@ class TheWorker(object):
 
     def start(self):
         self.loop.add_timeout(time.time()+self.heartbeat, self.send_heartbeat)
-        try:
-            IOLoop.instance().start()
-        except KeyboardInterrupt:
-            times_str('ctrlc')
+        # try:
+        #     IOLoop.instance().start()
+        # except KeyboardInterrupt:
+        #     times_str('ctrlc')
 
 
     def send_heartbeat(self):
