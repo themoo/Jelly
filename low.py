@@ -1,8 +1,28 @@
-import jel
+import q, w
+import zmq
+import threading
+import time
+from base import *
+
+def dummy(i):
+    print('dummy {}'.format(i))
+    time.sleep(100)
 
 def main():
-    r = jel.Runner()
-    r.start( ('tcp', '5556'),'tcp://*:5557',False);
+    context = zmq.Context(1)
+    
+    
+    qq = q.TheQueue(context, CLIENT_URL, WORKER_URL)
+    #qq.start()
+    for i in range(1):
+        t = threading.Thread(target=w.TheWorker,args=(context,))
+        t.start()
+        t.join()
+
+    
+    #qq.start()
+
+
 
 if __name__ == "__main__":
     main()

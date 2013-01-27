@@ -9,7 +9,7 @@ PPP_READY = b'\x01'
 PPP_HEARTBEAT = b'\x02'
 
 WORKER_URL = ('tcp','localhost','7000')
-CLIENT_URL = ('tcp','localhost','5555')
+CLIENT_URL = ('tcp','theone','5555')
 
 def times():
     return time.strftime('%H:%M:%S')
@@ -38,7 +38,7 @@ class WorkerQueue(object):
             if ( (time.time() > worker.expiry) and not (worker.working) ): 
                 expired.append(address)
         for address in expired:
-            times_str('W: Idle worker expired: {}'.format(address))
+            times_str('Q: Idle worker expired: {}'.format(address))
             self._queue.pop(address, None)
 
     def empty(self):
