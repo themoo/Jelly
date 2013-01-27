@@ -98,7 +98,6 @@ class TheQueue(object):
 def main():
     context = zmq.Context(1)
     q = TheQueue(context, CLIENT_URL, WORKER_URL)
-    #q.start()
 
 if __name__ == "__main__":
     main()

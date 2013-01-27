@@ -11,18 +11,12 @@ def dummy(i):
 def main():
     context = zmq.Context(1)
     
-    
     qq = q.TheQueue(context, CLIENT_URL, WORKER_URL)
-    #qq.start()
+
     for i in range(1):
         t = threading.Thread(target=w.TheWorker,args=(context,))
         t.start()
         t.join()
-
-    
-    #qq.start()
-
-
 
 if __name__ == "__main__":
     main()
